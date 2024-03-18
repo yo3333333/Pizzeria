@@ -27,6 +27,10 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
     
+
+    Route::get('/admin', function () {
+        return view('admin');
+    });
     
     Route::get('/empleados', function () {
         return view('inicio_empleados');
@@ -36,6 +40,7 @@ Route::middleware([
         return view('crear_empleado');
     });
     
+
     Route::get('/empleados/index', [EmpleadosController::class, 'index'])->name('empleados.index');
     Route::get('/empleados/crear', [EmpleadosController::class, 'create'])->name('empleados.create');
     Route::post('/empleados', [EmpleadosController::class, 'store'])->name('empleados.store');
@@ -46,6 +51,10 @@ Route::middleware([
     Route::get('/empleados/{empleado}', [EmpleadosController::class, 'show'])->name('empleados.show');
     
     Route::delete('/empleados/{empleado}', [EmpleadosController::class, 'destroy'])->name('empleados.destroy');
+
+
+    
+
 });
 
 ?>
