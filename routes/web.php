@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EmpleadosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/empleados/index', [EmpleadosController::class, 'index'])->name('empleados.index');
+Route::get('/empleados/crear', [EmpleadosController::class, 'create'])->name('empleados.create');
+Route::post('/empleados', [EmpleadosController::class, 'store'])->name('empleados.store');
+
+Route::get('/empleados/edit/{empleados}', [EmpleadosController::class, 'edit'])->name('empleados.edit');
+Route::post('/empleados/{empleados}', [EmpleadosController::class, 'update'])->name('empleados.update');
+
+Route::get('/empleados/{empleado}', [EmpleadosController::class, 'show'])->name('empleados.show');
+
+Route::delete('/empleados/{empleado}', [EmpleadosController::class, 'destroy'])->name('empleados.destroy');
+
+
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/empleados', function () {
+    return view('inicio_empleados');
+});
+
+Route::get('/empleados/crear', function () {
+    return view('crear_empleado');
+});
+
