@@ -29,6 +29,18 @@
     <input type="date" id="fecha_nac" name="fecha_nac" value="{{$empleados->fecha_nac}}" required><br><br>
 
     <button type="submit">Guardar Empleado</button>
+
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+
+    
 </form>
 
 </body>

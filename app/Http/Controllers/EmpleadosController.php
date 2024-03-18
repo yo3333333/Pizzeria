@@ -13,7 +13,7 @@ class EmpleadosController extends Controller
     public function index()
     {
         $empleados = Empleados::all();
-        return view('index_empleados', ['empleados' => $empleados]);
+        return view('index_empleado', ['empleados' => $empleados]);
     }
 
     /**
@@ -35,9 +35,21 @@ class EmpleadosController extends Controller
             'telefono' => ['required', 'integer','digits_between:8,10'],
             'puesto' => ['required', 'min:4', 'max:50'],
             'fecha_nac' => ['required', 'date']
+        ],
+        [
+            'nombre.min'=>'El nombre debe tener minimo 3 caracteres',
+            'nombre.max'=>'El nombre debe tener maximo 50 caracteres',
+
+            'sueldo.numeric'=>'El sueldo debe ser numerco',
+
+            'telefono.digits_between'=>'El telefono debe de tener minimon 8 numeros y maximo 10',
+            'telefono.integer'=>'El telefono debe ser un numero',
+
+            'puesto.min'=>'El puesto deb ser minimo 4 caracteres',
+            'puesto.max'=>'El puesto deb ser maximo 50 caracteres',
+
+            'fecha_nac.date'=>'La fecha debe ser una fecha',
         ]
-        
-        
         );
         
         
@@ -55,7 +67,11 @@ class EmpleadosController extends Controller
         $empleado_id = $request -> input('id');
         $empleado = Empleados::find($empleado_id);
 
-        
+        if (!$empleado){
+            return redirect()->back()->with('error','El empleado con ese id no existe');
+        }
+
+        return view('show_empleado', compact('empleado'));
 
     }
 
@@ -73,15 +89,27 @@ class EmpleadosController extends Controller
     public function update(Request $request, Empleados $empleados)
     {
         $validated = $request->validate([
-            
-            'nombre' => ['required', 'min:2', 'max:50'],
+            'nombre' => ['required', 'min:3', 'max:50'],
             'sueldo' => ['required', 'numeric'],
-            'telefono' => ['required', 'integer'],
-            'puesto' => ['required', 'min:2', 'max:50'],
+            'telefono' => ['required', 'integer','digits_between:8,10'],
+            'puesto' => ['required', 'min:4', 'max:50'],
             'fecha_nac' => ['required', 'date']
+        ],
+        [
+            'nombre.min'=>'El nombre debe tener minimo 3 caracteres',
+            'nombre.max'=>'El nombre debe tener maximo 50 caracteres',
 
-        ]);
+            'sueldo.numeric'=>'El sueldo debe ser numerco',
 
+            'telefono.digits_between'=>'El telefono debe de tener minimon 8 numeros y maximo 10',
+            'telefono.integer'=>'El telefono debe ser un numero',
+
+            'puesto.min'=>'El puesto deb ser minimo 4 caracteres',
+            'puesto.max'=>'El puesto deb ser maximo 50 caracteres',
+
+            'fecha_nac.date'=>'La fecha debe ser una fecha',
+        ]
+        );
         Empleados::where('id', $empleados->id)->update($request->except('_token', '_method'));
 
         return view('inicio_empleados');

@@ -22,7 +22,11 @@
             <label for="enviar"></label>
             <input type="submit" id="enviar" name="enviar">
             </form>
+@if (session('error')){{
+        session('error')
+    }}
 
+    @endif
 
 </body>
 </html>
