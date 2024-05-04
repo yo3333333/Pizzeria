@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmpleadosController;
+use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\PizzaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +42,8 @@ Route::middleware([
         return view('crear_empleado');
     });
     
+    Route::resource('pedido', PedidoController::class);
+    Route::resource('pizza', PizzaController::class);
 
     Route::get('/empleados/index', [EmpleadosController::class, 'index'])->name('empleados.index');
     Route::get('/empleados/crear', [EmpleadosController::class, 'create'])->name('empleados.create');
