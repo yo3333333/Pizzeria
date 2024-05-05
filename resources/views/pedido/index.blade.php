@@ -3,7 +3,7 @@
 @section('title', 'Página de inicio')
 
 @section('content')
-<title>Listado de Empleados</title>
+<title>Listado de Pedidos</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -36,12 +36,21 @@
             display: inline;
         }
     </style>
-</head>    
 
 
 <div class="container">
-        <h1>Listado de Empleados</h1>
+        <h1>Listado de Pedidos</h1>
     
+        <form action="{{ url('/pedido/show') }}" method="GET">
+                        <div class="sub">
+                            <label for="id">Buscar pedido por ID:</label>
+                            <input class="cuadro-buscar" type="id" id="id" name="id" placeholder="12" autofocus="">
+                        </div><br><br>
+                        <label for="enviar"></label>
+                        <input type="submit" id="enviar" name="enviar">
+        </form>
+
+
     <table>
         <thead>
             <tr>
@@ -60,7 +69,13 @@
                 <td>{{ $pedidos->total }}</td>
                 <td>{{ $pedidos->idEmpleado }}</td>
                 <td>
-                    <x-original_button :pedidos="$pedidos"></x-original_button>
+                    <x-edit_button :pedidos="$pedidos"></x-edit_button>
+
+                    <form action="{{ route('pedido.destroy', $pedidos->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit">Eliminar</button>
+                    </form>
                     
                 </td>
             </tr>
@@ -69,5 +84,3 @@
     </table>
     </div>
 @endsection
-
-

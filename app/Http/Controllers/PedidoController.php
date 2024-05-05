@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pedido;
+use App\Models\Pizza;
 use Illuminate\Http\Request;
 
 class PedidoController extends Controller
@@ -21,7 +22,7 @@ class PedidoController extends Controller
      */
     public function create()
     {
-        //
+        return view('pedido.create');
     }
 
     /**
@@ -29,15 +30,42 @@ class PedidoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'total' => ['required', 'numeric'],
+            'idEmpleado' => ['required', 'numeric'],
+            'fecha' => ['required', 'date']
+        ],
+        [
+            'total.numeric'=>'El total debe ser numerco',
+
+            'idEmpleado.numeric'=>'El id del empleado debe de ser numerico',
+
+            'fecha'=>'La fecha debe ser una fecha',
+        ]
+        );
+
+        $data = $request->except('_token');
+    
+        Pedido::create($data);
+
+        return redirect('/pedido');
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Pedido $pedido)
+    public function show(Request $request)
     {
-        //
+        $pedido_id = $request -> input('id');
+        $pedido = Pedido::find($pedido_id);
+
+        if (!$pedido){
+            return redirect()->back()->with('error','El empleado con ese id no existe');
+        }
+
+        return view('pedido.show', compact('pedido'));
+
     }
 
     /**
@@ -45,7 +73,7 @@ class PedidoController extends Controller
      */
     public function edit(Pedido $pedido)
     {
-        //
+        return view('pedido.edit', compact('pedido'));
     }
 
     /**
@@ -53,14 +81,35 @@ class PedidoController extends Controller
      */
     public function update(Request $request, Pedido $pedido)
     {
-        //
+        $request->validate([
+            'total' => ['required', 'numeric'],
+            'idEmpleado' => ['required', 'numeric'],
+            'fecha' => ['required', 'date']
+        ],
+        [
+            'total.numeric'=>'El total debe ser numerco',
+
+            'idEmpleado.numeric'=>'El id del empleado debe de ser numerico',
+
+            'fecha'=>'La fecha debe ser una fecha',
+        ]
+        );
+
+        Pedido::where('id', $pedido->id)->update($request->except('_token', '_method'));
+
+        return redirect()->route('pedido.index');
     }
 
+    
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Pedido $pedido)
+    public function destroy($id)
     {
-        //
+        $pedido_id =Pedido::find($id);
+
+        $pedido_id->delete();
+
+        return redirect('/pedido');
     }
 }

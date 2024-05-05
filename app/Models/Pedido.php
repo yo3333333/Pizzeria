@@ -15,6 +15,14 @@ class Pedido extends Model
     {
         return $this->belongsTo(Empleados::class);
     }
+
+    protected $fillable = [
+        'total',
+        'sueldo',
+        'idEmpleado',
+        'fecha',
+        // Otros campos fillable
+    ];
       
     use HasFactory;
 }

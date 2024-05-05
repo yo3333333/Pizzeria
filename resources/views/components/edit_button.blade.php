@@ -9,4 +9,4 @@
     }
 </style>
 
-<button onclick="window.location.href='/empleados/edit/{{ $pedidos->id }}'">Editar</button>
+<button onclick="window.location.href='/pedido/{{ $pedidos->id }}/edit'">Editar</button>
