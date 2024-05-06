@@ -20,9 +20,11 @@ class PedidoController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    
+     public function create()
     {
-        return view('pedido.create');
+        $pizzas = Pizza::all();
+        return view('pedido.create', compact('pizzas'));
     }
 
     /**
@@ -32,21 +34,32 @@ class PedidoController extends Controller
     {
         $request->validate([
             'total' => ['required', 'numeric'],
-            'idEmpleado' => ['required', 'numeric'],
-            'fecha' => ['required', 'date']
+            'fecha' => ['required', 'date'],
+            'idEmpleado' => 'required|integer|exists:empleados,id'
+
         ],
         [
+            'idEmpleado.exists'=>'El id del empleado no existe',
+
             'total.numeric'=>'El total debe ser numerco',
 
             'idEmpleado.numeric'=>'El id del empleado debe de ser numerico',
 
             'fecha'=>'La fecha debe ser una fecha',
+            
+            
         ]
         );
 
-        $data = $request->except('_token');
-    
-        Pedido::create($data);
+        
+        $pedido = Pedido::create($request->except('_token'));
+
+        // Adjunta las pizzas seleccionadas al pedido
+        if ($request->has('pizzas')) {
+            $pizzasSeleccionadas = $request->input('pizzas');
+            $pedido->pizzas()->attach($pizzasSeleccionadas);
+        }
+        
 
         return redirect('/pedido');
 
@@ -61,7 +74,7 @@ class PedidoController extends Controller
         $pedido = Pedido::find($pedido_id);
 
         if (!$pedido){
-            return redirect()->back()->with('error','El empleado con ese id no existe');
+            return redirect()->back()->with('error','El pedido con ese id no existe');
         }
 
         return view('pedido.show', compact('pedido'));
@@ -73,7 +86,8 @@ class PedidoController extends Controller
      */
     public function edit(Pedido $pedido)
     {
-        return view('pedido.edit', compact('pedido'));
+        $pizzas = Pizza::all();
+        return view('pedido.edit', compact('pedido','pizzas'));
     }
 
     /**
@@ -83,8 +97,8 @@ class PedidoController extends Controller
     {
         $request->validate([
             'total' => ['required', 'numeric'],
-            'idEmpleado' => ['required', 'numeric'],
-            'fecha' => ['required', 'date']
+            'fecha' => ['required', 'date'],
+            'idEmpleado' => 'required|integer|exists:empleados,id'
         ],
         [
             'total.numeric'=>'El total debe ser numerco',
@@ -92,11 +106,24 @@ class PedidoController extends Controller
             'idEmpleado.numeric'=>'El id del empleado debe de ser numerico',
 
             'fecha'=>'La fecha debe ser una fecha',
+
+            'idEmpleado.exists'=>'El id del empleado no existe',
         ]
         );
 
-        Pedido::where('id', $pedido->id)->update($request->except('_token', '_method'));
+        $pedido->update($request->except('_token', '_method', 'pizzas'));
 
+        
+        // Adjunta las pizzas seleccionadas al pedido
+        if ($request->has('pizzas')) {
+            $pizzasSeleccionadas = $request->input('pizzas');
+            $pedido->pizzas()->sync($pizzasSeleccionadas);
+        }
+        else {
+            $pedido->pizzas()->detach();
+        }
+
+    
         return redirect()->route('pedido.index');
     }
 

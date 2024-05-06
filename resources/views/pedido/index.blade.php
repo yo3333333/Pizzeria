@@ -50,6 +50,12 @@
                         <input type="submit" id="enviar" name="enviar">
         </form>
 
+        @if (session('error'))
+                    {{
+                        session('error')
+                    }}
+                    @endif
+
 
     <table>
         <thead>

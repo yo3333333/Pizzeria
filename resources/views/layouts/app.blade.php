@@ -6,25 +6,8 @@
     <title>@yield('title')</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
-
-    
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>SB Admin 2 - Blank</title>
-
-    <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
-    <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
+    <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
 </head>
-    
 <body id="page-top">
 
     <!-- Page Wrapper -->
@@ -84,6 +67,31 @@
                 </div>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Pedidos</span>
+                </a>
+                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="/pedido">Mostrar Pedidos</a>
+                        <a class="collapse-item" href="/pedido/create">Crear Pedido</a>
+                    </div>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="btn btn-primary nav-link collapsed py-3" data-toggle="collapse" data-target="#collapseUtilities"
+                    aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-fw fa-wrench"></i>
+                    <span>Logout</span>
+                    </button>
+                </form>
+            </li>
+
             <!-- Sidebar Message -->
             <div class="sidebar-card d-none d-lg-flex">
                 <img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="...">
@@ -92,17 +100,24 @@
             </div>
 
         </ul>
-    <main>
-        @yield('content')
-    </main>
 
-    <footer>
-        <!-- Aquí puedes agregar tu pie de página común -->
-    </footer>
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
 
-    <script src="{{ asset('js/app.js') }}"></script>
+            <!-- Main Content -->
+            <div id="content">
 
-    <footer class="sticky-footer bg-white">
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    @yield('content')
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
                 <!-- Footer content here -->
             </footer>
             <!-- End of Footer -->

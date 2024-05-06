@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pedido', function (Blueprint $table) {
+        Schema::create('pedidos', function (Blueprint $table) {
             $table->id();
             $table->date('fecha');
             $table->float('total', 10, 2)->default(0);
             $table->unsignedBigInteger("idEmpleado");
-            $table->unsignedBigInteger("idPizza");
-            $table->foreign('idPizza')->references('id')->on('Pizza')->onDelete('cascade');
             $table->foreign('idEmpleado')->references('id')->on('empleados')->onDelete('cascade');
             $table->timestamps();
         });

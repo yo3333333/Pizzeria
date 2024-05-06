@@ -56,6 +56,7 @@
             border: 1px solid #ebccd1;
             border-radius: 4px;
         }
+        
 </style>
     <h1>Crear Pedido</h1>
 
@@ -63,13 +64,20 @@
         @csrf <!-- Agregar el token CSRF -->
 
         <label for="total">Total:</label>
-        <input type="text" id="total" name="total" value="{{ old('total') }}" required>
+        <input type="text" id="total" name="total" min="1" max="99" value="{{ old('total') }}" required>
 
         <label for="idEmpleado">Id del Empleado:</label>
         <input type="number" id="idEmpleado" name="idEmpleado" value="{{ old('idEmpleado') }}" required>
 
         <label for="fecha">Fecha de pedido:</label>
         <input type="date" id="fecha" name="fecha" value="{{ old('fecha_nac') }}" required>
+        
+        <label for="pizzas">Seleccione las pizzas:</label>
+        <select name="pizzas[]" id="pizzas" multiple>
+        @foreach($pizzas as $pizza)
+            <option value="{{ $pizza->id }}">{{ $pizza->nombre }}</option>
+        @endforeach
+        </select>
 
         <button type="submit">Guardar pedido</button>
 

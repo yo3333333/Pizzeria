@@ -62,6 +62,14 @@
 
         <label for="fecha">Fecha de pedido:</label>
         <input type="date" id="fecha" name="fecha" value="{{ $pedido->fecha}}" required>
+
+        <label for="pizzas">Seleccione las pizzas:</label>
+        <select name="pizzas[]" id="pizzas" multiple>
+        @foreach($pizzas as $pizza)
+            <option value="{{ $pizza->id }}">{{ $pizza->nombre }}</option>
+        @endforeach
+        </select>
+
     
         <button type="submit">Guardar Pedido</button>
 
