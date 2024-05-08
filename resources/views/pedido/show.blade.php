@@ -48,6 +48,7 @@
                 <th>Fecha</th>
                 <th>Total</th>
                 <th>Id del empleado</th>
+                <th>Pizzas</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -57,6 +58,15 @@
                 <td>{{ $pedido->fecha }}</td>
                 <td>{{ $pedido->total }}</td>
                 <td>{{ $pedido->idEmpleado }}</td>
+                <td>
+                @foreach($pedido->pizzas as $pizza)
+                
+                {{$pizza->nombre}}
+                <br>
+
+                @endforeach
+                </td>
+
                 <td>
                     <x-edit_button :pedidos="$pedido"></x-edit_button>
                             

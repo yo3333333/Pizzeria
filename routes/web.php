@@ -1,9 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\EmpleadosController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\PizzaController;
+use App\Mail\Contactanos;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,7 +59,10 @@ Route::middleware([
     Route::delete('/empleados/{empleado}', [EmpleadosController::class, 'destroy'])->name('empleados.destroy');
 
 
-    
+    Route::get('/contactanos', function () {
+        Mail::to('destinatario@example.com')->send(new Contactanos());
+        return 'Correo enviado correctamente.';
+    })->name('contactanos');
 
 });
 

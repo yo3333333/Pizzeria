@@ -124,6 +124,6 @@ class EmpleadosController extends Controller
 
         $empleado_id->delete();
 
-        return view('inicio_empleados');
+        return redirect('/empleados');
     }
 }

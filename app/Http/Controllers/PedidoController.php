@@ -13,7 +13,8 @@ class PedidoController extends Controller
      */
     public function index()
     {
-        $pedido = Pedido::all();
+        $pedido = Pedido::with('pizzas')->get();
+        
         return view('pedido.index', ['pedido' => $pedido]);
     }
 
@@ -113,7 +114,7 @@ class PedidoController extends Controller
 
         $pedido->update($request->except('_token', '_method', 'pizzas'));
 
-        
+
         // Adjunta las pizzas seleccionadas al pedido
         if ($request->has('pizzas')) {
             $pizzasSeleccionadas = $request->input('pizzas');

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('puesto', 50);
             $table->date('fecha_nac');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
