@@ -29,6 +29,7 @@ class EmpleadosController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'nombre' => ['required', 'min:3', 'max:50'],
             'sueldo' => ['required', 'numeric'],
@@ -91,29 +92,26 @@ class EmpleadosController extends Controller
         $validated = $request->validate([
             'nombre' => ['required', 'min:3', 'max:50'],
             'sueldo' => ['required', 'numeric'],
-            'telefono' => ['required', 'integer','digits_between:8,10'],
+            'telefono' => ['required', 'integer', 'digits_between:8,10'],
             'puesto' => ['required', 'min:4', 'max:50'],
-            'fecha_nac' => ['required', 'date']
-        ],
-        [
-            'nombre.min'=>'El nombre debe tener minimo 3 caracteres',
-            'nombre.max'=>'El nombre debe tener maximo 50 caracteres',
-
-            'sueldo.numeric'=>'El sueldo debe ser numerco',
-
-            'telefono.digits_between'=>'El telefono debe de tener minimon 8 numeros y maximo 10',
-            'telefono.integer'=>'El telefono debe ser un numero',
-
-            'puesto.min'=>'El puesto deb ser minimo 4 caracteres',
-            'puesto.max'=>'El puesto deb ser maximo 50 caracteres',
-
-            'fecha_nac.date'=>'La fecha debe ser una fecha',
-        ]
-        );
-        Empleados::where('id', $empleados->id)->update($request->except('_token', '_method'));
-
-        return view('inicio_empleados');
+            'fecha_nac' => ['required', 'date'],
+            'avatar' => ['image', 'nullable', 'max:2048'], // Asegúrate de que el archivo sea una imagen y sea opcional
+        ]);
+    
+        if ($request->hasFile('avatar')) {
+            // Almacena el archivo y obtén la ruta
+            $avatarPath = $request->file('avatar')->store('public/avatars');
+    
+            // Actualiza el atributo del avatar con la ruta relativa
+            $empleados->avatar = $avatarPath;
+        }
+    
+        // Actualiza otros atributos
+        $empleados->update($request->except('_token', '_method', 'avatar'));
+    
+        return redirect('/empleados/index');
     }
+    
 
     /**
      * Remove the specified resource from storage.

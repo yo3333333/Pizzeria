@@ -190,10 +190,14 @@
                     <!-- Your Employee Page Content Here -->
                     <h1>Editar Empleado</h1>
 
-<form method ="POST" action="{{ route('empleados.update', $empleados) }}" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+<form method ="POST" action="{{ route('empleados.update', $empleados) }}" 
+enctype="multipart/form-data"
+class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
 
     @csrf <!-- Agregar el token CSRF -->
     
+    <img src="{{ asset(Storage::url($empleados->avatar)) }}" width="200" style="margin-left: 90px;">
+
     <label for="nombre">Nombre:</label>
     <input type="text" id="nombre" name="nombre" value="{{$empleados->nombre}}" required><br><br>
 
@@ -208,6 +212,11 @@
 
     <label for="fecha_nac">Fecha de Nacimiento:</label>
     <input type="date" id="fecha_nac" name="fecha_nac" value="{{$empleados->fecha_nac}}" required><br><br>
+
+    <label for="avatar">
+        Foto
+        <input type="file" name="avatar">
+    </label>
 
     <button type="submit">Guardar Empleado</button>
 

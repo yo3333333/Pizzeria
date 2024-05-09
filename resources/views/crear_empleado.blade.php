@@ -192,7 +192,8 @@
 <form method ="POST" action="{{route('empleados.store')}}" class="shadow-md rounded px-8 pt-6 pb-8 mb-4">
     @csrf <!-- Agregar el token CSRF -->
     
-
+    <img src="/storage/CJjqzvTdeKf07oR0AUZSaA6ItKvmvI3lL7AQAthj.png" width="200" style="margin-left: 90px;">
+    
     <label for="nombre">Nombre:</label>
     <input type="text" id="nombre" name="nombre" minlength="3" maxlength="50" value="{{old ('nombre')}}" required>
 
