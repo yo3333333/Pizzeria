@@ -15,7 +15,7 @@ class EmpleadosController extends Controller
         $empleados = Empleados::all();
         return view('index_empleado', ['empleados' => $empleados]);
     }
-
+    
     /**
      * Show the form for creating a new resource.
      */
@@ -124,4 +124,6 @@ class EmpleadosController extends Controller
 
         return redirect('/empleados');
     }
+
+
 }

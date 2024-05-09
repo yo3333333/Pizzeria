@@ -184,10 +184,13 @@
                 <th>Teléfono</th>
                 <th>Puesto</th>
                 <th>Fecha de Nacimiento</th>
+                <th>Archivos</th>
+                <th>Descargar</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
+
             @foreach($empleados as $empleado)
             <tr>
                 <td>{{ $empleado->id }}</td>
@@ -196,6 +199,9 @@
                 <td>{{ $empleado->telefono }}</td>
                 <td>{{ $empleado->puesto }}</td>
                 <td>{{ $empleado->fecha_nac }}</td>
+                <td><img src="{{ asset(Storage::url($empleado->avatar)) }}" width="100"></td>
+                <td><a href="{{ asset(Storage::url($empleado->avatar)) }}" download="{{ basename($empleado->avatar) }}">Descargar Archivo</a></td>
+                
                 <td>
                     <button onclick="window.location.href='/empleados/edit/{{ $empleado->id }}'">Editar</button>
         
